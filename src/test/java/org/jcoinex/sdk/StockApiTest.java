@@ -1,13 +1,14 @@
 package org.jcoinex.sdk;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 import org.apache.http.HttpException;
 import org.jcoinex.sdk.api.StockApi;
+import org.jcoinex.sdk.entity.response.CoinexAsset;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,15 +27,16 @@ public class StockApiTest {
 
     @Test
     public void GetBalanceTest(){
-        String balance = null;
+        List<CoinexAsset> assets = null;
         try {
-            balance = stockApi.getBalance();
+            assets = stockApi.getAssets();
         } catch (HttpException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Logger.getGlobal().log(Level.INFO, balance);
+        for(CoinexAsset asset:assets)
+            Logger.getGlobal().log(Level.INFO, asset.toString());
     }
 
     @Test

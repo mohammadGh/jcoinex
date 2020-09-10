@@ -2,9 +2,12 @@ package org.jcoinex.sdk.api;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpException;
+import org.jcoinex.sdk.entity.response.CoinexAsset;
+import org.jcoinex.sdk.response.deserializer.CoinexResponseDeserializer;
 import org.jcoinex.sdk.util.MD5Util;
 
 
@@ -136,7 +139,12 @@ public class StockApi {
 	}
 
 	public String getBalance() throws HttpException, IOException {
-		return doRequest(BALANCE_URL, null, HTTP_METHOD.GET);
+		return  doRequest(BALANCE_URL, null, HTTP_METHOD.GET);
+	}
+
+	public List<CoinexAsset> getAssets() throws HttpException, IOException {
+		return  CoinexResponseDeserializer.deserializeToAsset(
+				doRequest(BALANCE_URL, null, HTTP_METHOD.GET));
 	}
 	
 	public String pendingOrder(MARKET market, int page, int account) throws HttpException, IOException {
