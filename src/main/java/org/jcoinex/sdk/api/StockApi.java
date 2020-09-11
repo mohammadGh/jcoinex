@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpException;
-import org.jcoinex.sdk.entity.response.CoinexAsset;
+import org.jcoinex.sdk.response.entity.CoinexAsset;
 import org.jcoinex.sdk.response.deserializer.CoinexResponseDeserializer;
+import org.jcoinex.sdk.response.entity.CoinexKline;
 import org.jcoinex.sdk.util.MD5Util;
 
 
@@ -48,7 +49,11 @@ public class StockApi {
 	private final String PUT_MARKET_URL = "order/market";
 
 	private final String CANCEL_ORDER_URL = "order/pending";
-	
+
+	private final String CANCEL_ALL_ORDERS_URL = "order/pending";
+
+	private final String UNEXECYTED_ORDERS_URL = "order/pending";
+
 	private enum HTTP_METHOD {
 	    GET, POST, DELETE;
 	}
@@ -100,7 +105,7 @@ public class StockApi {
 			return httpUtil.requestHttpPost(url_prex, url, paramMap, authorization);
 			
 		case DELETE:
-			return httpUtil.requestHttpDelete(url_prex, url, paramMap, authorization);
+			return httpUtil.requestHttpDel(url_prex, url, paramMap, authorization);
 
 		default:
 			return httpUtil.requestHttpGet(url_prex, url, paramMap, authorization);
@@ -130,12 +135,23 @@ public class StockApi {
 	    return doRequest(TRADES_URL, param, HTTP_METHOD.GET);
 	}
 	
-	public String kline(MARKET market, String type) throws HttpException, IOException {
+	public String kline(String market, String type) throws HttpException, IOException {
 		
 		HashMap<String, String> param = new HashMap<>();
-		param.put("market", market.toString());
+		param.put("market", market);
 		param.put("type", type);
+		param.put("limit","5");
 	    return doRequest(KLINE_URL, param, HTTP_METHOD.GET);
+	}
+
+	public List<CoinexKline> GetKline(String market, String type) throws HttpException, IOException {
+
+		HashMap<String, String> param = new HashMap<>();
+		param.put("market", market);
+		param.put("type", type);
+		param.put("limit","5");
+		return CoinexResponseDeserializer.deserializeToKlines(
+				doRequest(KLINE_URL, param, HTTP_METHOD.GET));
 	}
 
 	public String getBalance() throws HttpException, IOException {
@@ -147,23 +163,23 @@ public class StockApi {
 				doRequest(BALANCE_URL, null, HTTP_METHOD.GET));
 	}
 	
-	public String pendingOrder(MARKET market, int page, int account) throws HttpException, IOException {
+	public String pendingOrder(String market, int page, int account) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
-		param.put("market", market.toString());
+		param.put("market", market);
 		param.put("page", String.valueOf(page));
 		param.put("account", String.valueOf(account));
 	    return doRequest(PENDING_ORDER_URL, param, HTTP_METHOD.GET);
 	}
 	
-	public String finishedOrder(MARKET market, String page, String account) throws HttpException, IOException {
+	public String finishedOrder(String market, String page, String account) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
-		param.put("market", market.toString());
+		param.put("market", market);
 		param.put("page", page);
 		param.put("account", account);
 	    return doRequest(FINISHED_ORDER_URL, param, HTTP_METHOD.GET);
 	}
 	
-	public String putLimitOrder(MARKET market, ORDER_TYPE type, float amount, float price) throws HttpException, IOException {
+	public String putLimitOrder(String market, ORDER_TYPE type, float amount, float price) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
 		param.put("market", market.toString());
 		param.put("type", type.toString());
@@ -180,10 +196,30 @@ public class StockApi {
 	    return doRequest(PUT_MARKET_URL, param, HTTP_METHOD.POST);
 	}
 	
-	public String cancelOrder(MARKET market, String orderID) throws HttpException, IOException {
+	public String cancelOrder(String market, String orderID) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
-		param.put("market", market.toString());
+		param.put("market", market);
 		param.put("order_id", orderID);
 	    return doRequest(CANCEL_ORDER_URL, param, HTTP_METHOD.DELETE);
+	}
+
+	public String cancelAllOrder(String market, int accountId) throws HttpException, IOException {
+		HashMap<String, String> param = new HashMap<>();
+		param.put("market", market);
+		param.put("account_id", String.valueOf(accountId));
+		return doRequest(CANCEL_ALL_ORDERS_URL, param, HTTP_METHOD.DELETE);
+	}
+
+	public String getUnexecutedOrders(String market, int page, int itemsInPage, int account) throws HttpException, IOException {
+		HashMap<String, String> param = new HashMap<>();
+		param.put("market", market);
+		param.put("page", String.valueOf(page));
+		param.put("limit", String.valueOf(page));
+		param.put("account_id", String.valueOf(account));
+		return doRequest(UNEXECYTED_ORDERS_URL, param, HTTP_METHOD.GET);
+	}
+
+	public String getTonce() {
+		return String.valueOf(System.currentTimeMillis());
 	}
 }

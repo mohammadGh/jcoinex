@@ -11,6 +11,7 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -162,6 +163,36 @@ public class HttpUtilManager {
 		}finally{
 			if(is!=null){
 			    is.close();
+			}
+		}
+		return responseData;
+	}
+
+	public String requestHttpDel(String url_prex, String url, Map<String, String> paramMap, String authorization) throws HttpException, IOException{
+
+		url=url_prex+url + "?" + StringUtil.createLinkString(paramMap);
+		if (paramMap == null) {
+			paramMap = new HashMap<>();
+		}
+
+		HttpDelete method = new HttpDelete(url);
+		method.setHeader("Content-Type", "application/json");
+		method.setHeader("authorization", authorization);
+
+		method.setConfig(requestConfig);
+		HttpResponse response = client.execute(method);
+		HttpEntity entity =  response.getEntity();
+		if(entity == null){
+			return "";
+		}
+		InputStream is = null;
+		String responseData = "";
+		try{
+			is = entity.getContent();
+			responseData = IOUtils.toString(is, "UTF-8");
+		}finally{
+			if(is!=null){
+				is.close();
 			}
 		}
 		return responseData;
