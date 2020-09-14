@@ -1,11 +1,13 @@
 package org.jcoinex.sdk.response.deserializer;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import org.jcoinex.sdk.response.entity.CoinexAsset;
 import org.jcoinex.sdk.response.entity.CoinexKline;
+import org.jcoinex.sdk.response.entity.CoinexUnexecutedOrder;
 
 import java.io.IOException;
 import java.util.*;
@@ -53,5 +55,21 @@ public class CoinexResponseDeserializer {
             klineList.add(new CoinexKline(timestamp,openingPrice,closingPrice,highestPrice,lowestPrice,volume,amount,market));
         }
         return  klineList;
+    }
+
+    public static List<CoinexUnexecutedOrder> deserializeToUnexecutedOrders(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        JsonNode jsonNode = mapper.readTree(json);
+
+        String dataPartJson = jsonNode.get("data").get("data").toString();
+
+        TypeReference<List<CoinexUnexecutedOrder>> typeRef
+                = new TypeReference<List<CoinexUnexecutedOrder>>() {};
+
+        List<CoinexUnexecutedOrder> orders=mapper.readValue(dataPartJson,typeRef);
+
+        return orders;
     }
 }

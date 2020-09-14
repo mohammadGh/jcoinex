@@ -9,6 +9,7 @@ import org.apache.http.HttpException;
 import org.jcoinex.sdk.response.entity.CoinexAsset;
 import org.jcoinex.sdk.response.deserializer.CoinexResponseDeserializer;
 import org.jcoinex.sdk.response.entity.CoinexKline;
+import org.jcoinex.sdk.response.entity.CoinexUnexecutedOrder;
 import org.jcoinex.sdk.util.MD5Util;
 
 
@@ -210,7 +211,7 @@ public class StockApi {
 		return doRequest(CANCEL_ALL_ORDERS_URL, param, HTTP_METHOD.DELETE);
 	}
 
-	public String getUnexecutedOrders(String market, int page, int itemsInPage, int account) throws HttpException, IOException {
+	public String getUnexecutedOrdersJson(String market, int page, int itemsInPage, int account) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
 		param.put("market", market);
 		param.put("page", String.valueOf(page));
@@ -218,7 +219,10 @@ public class StockApi {
 		param.put("account_id", String.valueOf(account));
 		return doRequest(UNEXECYTED_ORDERS_URL, param, HTTP_METHOD.GET);
 	}
-
+	public List<CoinexUnexecutedOrder> getUnexecutedOrders(String market, int page, int itemsInPage, int account) throws HttpException, IOException {
+		String json=getUnexecutedOrdersJson(market,page,itemsInPage,account);
+		return CoinexResponseDeserializer.deserializeToUnexecutedOrders(json);
+	}
 	public String getTonce() {
 		return String.valueOf(System.currentTimeMillis());
 	}

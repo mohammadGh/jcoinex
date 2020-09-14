@@ -5,6 +5,7 @@ import org.apache.http.HttpException;
 import org.jcoinex.sdk.api.StockApi;
 import org.jcoinex.sdk.response.entity.CoinexAsset;
 import org.jcoinex.sdk.response.entity.CoinexKline;
+import org.jcoinex.sdk.response.entity.CoinexUnexecutedOrder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StockApiTest {
-    final static String ACCESS_ID="D6A86903737949AC8560C2F6B1C631D4";
-    final static String SECRET_KEY="1CBA02A24B1F3EC3ACAC30CCFC2A13FDD62BB66B4BBE69EF";
+    final static String ACCESS_ID="C9367A65B25840858BA0432E373A7059";
+    final static String SECRET_KEY="61535CB3A2DDA9048570CB03AE0DBCA08DBB303848B6F82A";
     final static String BASE_URL="https://api.coinex.com/v1/";
 
     private static StockApi stockApi;
@@ -80,8 +81,21 @@ public class StockApiTest {
     }
 
     @Test
-    public void getUnexecutedOrdersTest(){
+    public void getUnexecutedOrdersJsonTest(){
         String unexecutedOrders = null;
+        try {
+            unexecutedOrders = stockApi.getUnexecutedOrdersJson("YFIUSDT",1,10,0);
+        } catch (HttpException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Logger.getGlobal().log(Level.INFO, unexecutedOrders);
+    }
+
+    @Test
+    public void getUnexecutedOrdersTest(){
+        List<CoinexUnexecutedOrder> unexecutedOrders = null;
         try {
             unexecutedOrders = stockApi.getUnexecutedOrders("YFIUSDT",1,10,0);
         } catch (HttpException e) {
@@ -89,7 +103,7 @@ public class StockApiTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Logger.getGlobal().log(Level.INFO, unexecutedOrders);
+        Logger.getGlobal().log(Level.INFO, String.valueOf(unexecutedOrders.size()));
     }
 
     @Test
