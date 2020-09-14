@@ -1,0 +1,3 @@
+org/jcoinex/sdk/response/deserializer/CoinexResponseDeserializer$1.class
+org/jcoinex/sdk/response/entity/CoinexAsset.class
+org/jcoinex/sdk/response/entity/CoinexKline.class

@@ -15,8 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StockApiTest {
-    final static String ACCESS_ID="C9367A65B25840858BA0432E373A7059";
-    final static String SECRET_KEY="61535CB3A2DDA9048570CB03AE0DBCA08DBB303848B6F82A";
+
+    final static String ACCESS_ID="";
+    final static String SECRET_KEY="";
+
     final static String BASE_URL="https://api.coinex.com/v1/";
 
     private static StockApi stockApi;
