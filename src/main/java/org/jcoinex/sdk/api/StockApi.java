@@ -136,21 +136,21 @@ public class StockApi {
 	    return doRequest(TRADES_URL, param, HTTP_METHOD.GET);
 	}
 	
-	public String kline(String market, String type) throws HttpException, IOException {
+	public String kline(String market, String timeWindowType,int limit) throws HttpException, IOException {
 		
 		HashMap<String, String> param = new HashMap<>();
 		param.put("market", market);
-		param.put("type", type);
-		param.put("limit","5");
+		param.put("type", timeWindowType);
+		param.put("limit",String.valueOf(limit));
 	    return doRequest(KLINE_URL, param, HTTP_METHOD.GET);
 	}
 
-	public List<CoinexKline> GetKline(String market, String type) throws HttpException, IOException {
+	public List<CoinexKline> getKline(String market, String timeWindowType,int limit) throws HttpException, IOException {
 
 		HashMap<String, String> param = new HashMap<>();
 		param.put("market", market);
-		param.put("type", type);
-		param.put("limit","5");
+		param.put("type", timeWindowType);
+		param.put("limit",String.valueOf(limit));
 		return CoinexResponseDeserializer.deserializeToKlines(
 				doRequest(KLINE_URL, param, HTTP_METHOD.GET));
 	}
@@ -180,16 +180,16 @@ public class StockApi {
 	    return doRequest(FINISHED_ORDER_URL, param, HTTP_METHOD.GET);
 	}
 	
-	public String putLimitOrder(String market, ORDER_TYPE type, float amount, float price) throws HttpException, IOException {
+	public String putLimitOrder(String market, String sellOrBuyType, double amount, double price) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
 		param.put("market", market.toString());
-		param.put("type", type.toString());
+		param.put("type", sellOrBuyType);
 		param.put("amount", String.valueOf(amount));
 		param.put("price", String.valueOf(price));
 	    return doRequest(PUT_LIMIT_URL, param, HTTP_METHOD.POST);
 	}
 	
-	public String putMarketOrder(MARKET market, ORDER_TYPE type, float amount) throws HttpException, IOException {
+	public String putMarketOrder(MARKET market, ORDER_TYPE type, double amount) throws HttpException, IOException {
 		HashMap<String, String> param = new HashMap<>();
 		param.put("market", market.toString());
 		param.put("type", type.toString());

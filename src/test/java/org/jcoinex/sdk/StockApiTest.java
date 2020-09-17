@@ -30,7 +30,7 @@ public class StockApiTest {
     }
 
     @Test
-    public void GetBalanceTest(){
+    public void getBalanceTest(){
         List<CoinexAsset> assets = null;
         try {
             assets = stockApi.getAssets();
@@ -44,7 +44,7 @@ public class StockApiTest {
     }
 
     @Test
-    public void GetBalance2Test(){
+    public void getBalance2Test(){
         String balance = null;
         try {
             balance = stockApi.getBalance();
@@ -57,10 +57,10 @@ public class StockApiTest {
     }
 
     @Test
-    public void GetKline(){
+    public void getKline(){
         List<CoinexKline> klines = null;
         try {
-            klines = stockApi.GetKline("YFIUSDT","30min");
+            klines = stockApi.getKline("YFIUSDT","30min",5);
         } catch (HttpException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -70,10 +70,10 @@ public class StockApiTest {
     }
 
     @Test
-    public void GetKLinesTest(){
+    public void getKLinesTest(){
         String balance = null;
         try {
-            balance = stockApi.kline("YFIUSDT","30min");
+            balance = stockApi.kline("YFIUSDT","30min",5);
         } catch (HttpException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -112,7 +112,7 @@ public class StockApiTest {
     public void putLimitOrderTest(){
         String responseOfPutOrder = null;
         try {
-            responseOfPutOrder = stockApi.putLimitOrder("YFIUSDT", StockApi.ORDER_TYPE.ORDER_TYPE_BUY,0.01f,27900f);
+            responseOfPutOrder = stockApi.putLimitOrder("YFIUSDT", "buy",0.01f,27900f);
         } catch (HttpException e) {
             e.printStackTrace();
         } catch (IOException e) {

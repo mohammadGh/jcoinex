@@ -1,5 +1,9 @@
 /home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/util/StringUtil.java
 /home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/util/MD5Util.java
+/home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/response/entity/CoinexAsset.java
 /home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/api/HttpUtilManager.java
 /home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/api/StockApi.java
+/home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/response/deserializer/CoinexResponseDeserializer.java
+/home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/response/entity/CoinexKline.java
 /home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/api/CoinExHttpDelete.java
+/home/mgh/src/jcoinex/src/main/java/org/jcoinex/sdk/response/entity/CoinexUnexecutedOrder.java

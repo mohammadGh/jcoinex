@@ -1,3 +1,16 @@
+org/jcoinex/sdk/response/deserializer/CoinexResponseDeserializer$2.class
+org/jcoinex/sdk/api/StockApi.class
+org/jcoinex/sdk/api/HttpUtilManager.class
 org/jcoinex/sdk/response/deserializer/CoinexResponseDeserializer$1.class
+org/jcoinex/sdk/response/deserializer/CoinexResponseDeserializer.class
+org/jcoinex/sdk/util/StringUtil.class
+org/jcoinex/sdk/response/entity/CoinexUnexecutedOrder.class
+org/jcoinex/sdk/api/StockApi$ORDER_TYPE.class
+org/jcoinex/sdk/api/HttpUtilManager$1.class
+org/jcoinex/sdk/api/StockApi$MARKET.class
+org/jcoinex/sdk/api/StockApi$1.class
+org/jcoinex/sdk/api/CoinExHttpDelete.class
 org/jcoinex/sdk/response/entity/CoinexAsset.class
 org/jcoinex/sdk/response/entity/CoinexKline.class
+org/jcoinex/sdk/api/StockApi$HTTP_METHOD.class
+org/jcoinex/sdk/util/MD5Util.class
