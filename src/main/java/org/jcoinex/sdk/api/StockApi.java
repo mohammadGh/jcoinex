@@ -9,6 +9,7 @@ import org.apache.http.HttpException;
 import org.jcoinex.sdk.response.entity.CoinexAsset;
 import org.jcoinex.sdk.response.deserializer.CoinexResponseDeserializer;
 import org.jcoinex.sdk.response.entity.CoinexKline;
+import org.jcoinex.sdk.response.entity.CoinexMarketStatistic;
 import org.jcoinex.sdk.response.entity.CoinexUnexecutedOrder;
 import org.jcoinex.sdk.util.MD5Util;
 
@@ -31,6 +32,8 @@ public class StockApi {
 		this.url_prex = url_prex;
 	}
 	
+	private final String  MARKETS_LIST= "market/list";
+
 	private final String TICKER_URL = "market/ticker";
 
 	private final String DEPTH_URL = "market/depth";
@@ -112,6 +115,11 @@ public class StockApi {
 			return httpUtil.requestHttpGet(url_prex, url, paramMap, authorization);
 		}
 	}
+
+	public List<String> getMarkets() throws IOException, HttpException {
+		return  CoinexResponseDeserializer.deserializeToMarketStrings(
+				doRequest(MARKETS_LIST, null, HTTP_METHOD.GET));
+	}
 	
 	public String ticker(MARKET market) throws HttpException, IOException {
 
@@ -119,6 +127,14 @@ public class StockApi {
 		param.put("market", market.toString());
 	    return doRequest(TICKER_URL, param, HTTP_METHOD.GET);
 	}
+
+	public CoinexMarketStatistic getMarketStatistic(String market) throws HttpException, IOException {
+		HashMap<String, String> param = new HashMap<>();
+		param.put("market", market);
+		return CoinexResponseDeserializer.deserializeToMarketStatistic(
+				doRequest(TICKER_URL, param, HTTP_METHOD.GET));
+	}
+
 
 	public String depth(MARKET market, String merge, Integer limit) throws HttpException, IOException {
 		

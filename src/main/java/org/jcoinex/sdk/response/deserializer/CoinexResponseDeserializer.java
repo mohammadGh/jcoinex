@@ -7,12 +7,39 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import org.jcoinex.sdk.response.entity.CoinexAsset;
 import org.jcoinex.sdk.response.entity.CoinexKline;
+import org.jcoinex.sdk.response.entity.CoinexMarketStatistic;
 import org.jcoinex.sdk.response.entity.CoinexUnexecutedOrder;
 
 import java.io.IOException;
 import java.util.*;
 
 public class CoinexResponseDeserializer {
+    public static List<String> deserializeToMarketStrings(String marketJson) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = mapper.readTree(marketJson);
+        String dataPartJson = json.get("data").toString();
+
+        TypeReference<List<String>> typeRef
+                = new TypeReference<List<String>>() {};
+
+        List<String> marketList=mapper.readValue(dataPartJson,typeRef);
+
+        return marketList;
+    }
+
+    public static CoinexMarketStatistic deserializeToMarketStatistic(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readTree(json);
+        String dataPartJson = jsonNode.get("data").get("ticker").toString();
+
+        TypeReference<CoinexMarketStatistic> typeRef
+                = new TypeReference<CoinexMarketStatistic>() {};
+
+        CoinexMarketStatistic orders=mapper.readValue(dataPartJson,typeRef);
+
+        return orders;
+    }
     public static List<CoinexAsset> deserializeToAsset(String assetsJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 

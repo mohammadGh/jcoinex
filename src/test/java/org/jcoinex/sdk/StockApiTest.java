@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 
 public class StockApiTest {
 
-    final static String ACCESS_ID="";
-    final static String SECRET_KEY="";
+    private static final String ACCESS_ID = "DC0AB98FC8034963BD10B937567C4735";
+    private static final String SECRET_KEY = "70F14F6B7BF71A5713A3A7C9E71181B7060D711E14461081";
 
     final static String BASE_URL="https://api.coinex.com/v1/";
 
@@ -151,5 +151,27 @@ public class StockApiTest {
     @Test
     public void getTonceTest(){
         Logger.getGlobal().log(Level.INFO, stockApi.getTonce());
+    }
+
+    @Test
+    public void getAllMarkets(){
+        try {
+            Logger.getGlobal().log(Level.INFO, stockApi.getMarkets().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (HttpException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getMarketStatistic(){
+        try {
+            Logger.getGlobal().log(Level.INFO, stockApi.getMarketStatistic("BTCUSDT").toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (HttpException e) {
+            e.printStackTrace();
+        }
     }
 }
