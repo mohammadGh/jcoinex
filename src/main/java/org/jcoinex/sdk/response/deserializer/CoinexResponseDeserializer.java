@@ -99,4 +99,11 @@ public class CoinexResponseDeserializer {
 
         return orders;
     }
+
+    public static long deserializeDataAsLong(String jsonStr) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = mapper.readTree(jsonStr);
+        String dataPartJson = json.get("data").toString();
+        return Long.valueOf(dataPartJson);
+    }
 }
